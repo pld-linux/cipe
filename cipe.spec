@@ -1,3 +1,7 @@
+#
+# Conditional build:
+# _without_dist_kernel	- without kernel from distribution
+#
 Summary:	CIPE - encrypted IP over UDP tunneling
 Summary(pl):	CIPE - szyfrowany tunel IP po UDP
 Name:		cipe
@@ -91,8 +95,8 @@ Summary:	CIPE kernel module
 Summary(pl):	Modu³ j±dra CIPE
 Release:	%{_rel}@%{_kernel_ver_str}
 Group:		Base/Kernel
-Prereq:		/sbin/depmod
 %{!?_without_dist_kernel:%requires_releq_kernel_up}
+Requires(post,postun):	/sbin/depmod
 
 %description -n kernel-cipe
 CIPE (the name is shortened from *Crypto IP Encapsulation*) is a
@@ -113,8 +117,8 @@ Summary:	CIPE kernel module
 Summary(pl):	Modu³ j±dra CIPE
 Release:	%{_rel}@%{_kernel_ver_str}
 Group:		Base/Kernel
-Prereq:		/sbin/depmod
 %{!?_without_dist_kernel:%requires_releq_kernel_smp}
+Requires(post,postun):	/sbin/depmod
 
 %description -n kernel-smp-cipe
 CIPE (the name is shortened from *Crypto IP Encapsulation*) is a
@@ -220,17 +224,17 @@ if [ "$1" = "0" -a -f /var/lock/subsys/rc-inetd ]; then
 	/etc/rc.d/init.d/rc-inetd reload
 fi
 
-%post -n kernel-cipe
-/sbin/depmod -a
+%post	-n kernel-cipe
+/sbin/depmod -a -F /boot/System.map-%{_kernel_ver} %{_kernel_ver}
 
 %postun -n kernel-cipe
-/sbin/depmod -a
+/sbin/depmod -a -F /boot/System.map-%{_kernel_ver} %{_kernel_ver}
 
-%post -n kernel-smp-cipe
-/sbin/depmod -a
+%post	-n kernel-smp-cipe
+/sbin/depmod -a -F /boot/System.map-%{_kernel_ver}smp %{_kernel_ver}smp
 
 %postun -n kernel-smp-cipe
-/sbin/depmod -a
+/sbin/depmod -a -F /boot/System.map-%{_kernel_ver}smp %{_kernel_ver}smp
 
 %files
 %defattr(644,root,root,755)
