@@ -1,8 +1,0 @@
-SERVICE_NAME=pkcipe
-SOCK_TYPE=stream
-PROTOCOL=tcp
-PORT=963
-FLAGS=nowait
-USER=root
-SERVER=tcpd
-DAEMON=/usr/sbin/pkcipe
