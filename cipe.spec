@@ -2,7 +2,7 @@ Summary:	CIPE - encrypted IP over UDP tunneling
 Summary(pl):	CIPE - szyfrowany tunel IP po UDP
 Name:		cipe
 Version:	1.5.2
-%define	_rel	13
+%define	_rel	14
 Release:	%{_rel}
 License:	GPL
 Group:		Networking/Daemons
