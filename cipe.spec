@@ -135,7 +135,7 @@ skompilowany dla %{_kernel_ver}-smp.
 %build
 mv -f conf/aclocal.m4 conf/acinclude.m4
 aclocal -I conf --output=conf/aclocal.m4
-autoconf -l conf/
+%{__autoconf} -l conf/
 
 %configure \
 	--with-linux=%{_kernelsrcdir} \
