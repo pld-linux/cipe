@@ -26,10 +26,8 @@ BuildRequires:	openssl-devel >= 0.9.7
 BuildRequires:	/usr/bin/openssl
 BuildRequires:	rpmbuild(macros) >= 1.118
 BuildRequires:	%{kgcc_package}
-
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
-%define		_sysconfdir	/etc
 %define		__cc		%{kgcc}
 
 %description
@@ -186,7 +184,6 @@ DEFS="-D__SMP__ -D__KERNEL_SMP=1" \
 
 %install
 rm -rf $RPM_BUILD_ROOT
-
 install -d $RPM_BUILD_ROOT{%{_bindir},%{_sbindir},%{_infodir}} \
 	$RPM_BUILD_ROOT%{_sysconfdir}/cipe/pk \
 	$RPM_BUILD_ROOT/lib/modules/%{_kernel_ver}/misc \
