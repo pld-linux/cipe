@@ -11,6 +11,7 @@ Source1:	%{name}.inetd
 Patch0:		%{name}-autoconf.patch
 Patch1:		%{name}-makefile.patch
 Patch2:		%{name}-pkcipe-real-peer.patch
+Patch3:		%{name}-get_fast_time.patch
 %{!?_without_dist_kernel:BuildRequires: kernel-headers}
 BuildRequires:	autoconf
 BuildRequires:	automake
@@ -131,11 +132,12 @@ skompilowany dla %{_kernel_ver}-smp.
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
+%patch3 -p1
 
 %build
 mv -f conf/aclocal.m4 conf/acinclude.m4
 aclocal -I conf --output=conf/aclocal.m4
-%{__autoconf} -l conf/
+%{__autoconf} --include conf/
 
 %configure \
 	--with-linux=%{_kernelsrcdir} \
