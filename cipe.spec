@@ -22,7 +22,7 @@ URL:		http://sites.inka.de/bigred/devel/cipe.html
 %{!?_without_dist_kernel:BuildRequires:	kernel-headers}
 BuildRequires:	autoconf
 BuildRequires:	automake
-BuildRequires:	openssl-devel >= 0.9.7
+BuildRequires:	openssl-devel >= 0.9.7c
 BuildRequires:	/usr/bin/openssl
 BuildRequires:	rpmbuild(macros) >= 1.118
 BuildRequires:	%{kgcc_package}
