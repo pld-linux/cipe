@@ -17,7 +17,7 @@ Patch4:		%{name}-alpha.patch
 %{!?_without_dist_kernel:BuildRequires: kernel-headers}
 BuildRequires:	autoconf
 BuildRequires:	automake
-BuildRequires:	openssl-devel >= 0.9.6
+BuildRequires:	openssl-devel >= 0.9.6m
 BuildRequires:	/usr/bin/openssl
 BuildRequires:  %{kgcc_package}
 
