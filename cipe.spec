@@ -252,8 +252,8 @@ fi
 
 %files -n kernel-cipe
 %defattr(644,root,root,755)
-%attr(600,root,root) /lib/modules/%{_kernel_ver}/misc/cip*.o*
+/lib/modules/%{_kernel_ver}/misc/cip*.o*
 
 %files -n kernel-smp-cipe
 %defattr(644,root,root,755)
-%attr(600,root,root) /lib/modules/%{_kernel_ver}smp/misc/cip*.o*
+/lib/modules/%{_kernel_ver}smp/misc/cip*.o*
