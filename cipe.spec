@@ -11,6 +11,7 @@ Release:	%{_rel}
 License:	GPL
 Group:		Networking/Daemons
 Source0:	http://sites.inka.de/bigred/sw/%{name}-%{version}.tar.gz
+# Source0-md5:	9d88f2d090fcafcd0e2fa73b018b6e16
 Source1:	%{name}.inetd
 Patch0:		%{name}-autoconf.patch
 Patch1:		%{name}-makefile.patch
