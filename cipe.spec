@@ -2,7 +2,7 @@ Summary:	CIPE - encrypted IP over UDP tunneling
 Summary(pl):	CIPE - szyfrowany tunel IP po UDP
 Name:		cipe
 Version:	1.5.2
-%define		_rel 5
+%define		_rel 6
 Release:	%{_rel}
 License:	GPL
 Group:		Networking/Daemons
@@ -12,11 +12,12 @@ Patch0:		%{name}-autoconf.patch
 Patch1:		%{name}-makefile.patch
 Patch2:		%{name}-pkcipe-real-peer.patch
 Patch3:		%{name}-get_fast_time.patch
+Patch4:		%{name}-alpha.patch
 %{!?_without_dist_kernel:BuildRequires: kernel-headers}
 BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	openssl-devel >= 0.9.6
-BuildRequires:	%{_bindir}/openssl
+BuildRequires:	/usr/bin/openssl
 BuildRequires:  %{kgcc_package}
 
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -40,7 +41,7 @@ podobnych zastosowaniach.
 Summary:	The PKCIPE public key tool for CIPE
 Summary(pl):	PKCIPE - narzêdzie do wykorzystania kluczy publicznych w CIPE
 Group:		Networking/Daemons
-Prereq:		%{_bindir}/openssl
+Prereq:		/usr/bin/openssl
 Requires:	%{name} = %{version}
 Obsoletes:	%{name}-pkcipe
 
@@ -133,6 +134,7 @@ skompilowany dla %{_kernel_ver}-smp.
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
+%patch4 -p1
 
 %build
 mv -f conf/aclocal.m4 conf/acinclude.m4
@@ -148,7 +150,7 @@ aclocal -I conf --output=conf/aclocal.m4
 mkdir modules/
 mv -f */cipcb.o modules/
 
-make clean
+%{__make} clean
 
 DEFS="-D__SMP__ -D__KERNEL_SMP=1" \
 %configure \
@@ -175,8 +177,6 @@ install */cipcb.o $RPM_BUILD_ROOT/lib/modules/%{_kernel_ver}smp/misc
 install */ciped-cb $RPM_BUILD_ROOT%{_sbindir}
 install cipe.info $RPM_BUILD_ROOT%{_infodir}
 install %{SOURCE1} $RPM_BUILD_ROOT/etc/sysconfig/rc-inetd/pkcipe
-
-gzip -9nf README* tcpdump.patch CHANGES
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -216,7 +216,7 @@ fi
 
 %files
 %defattr(644,root,root,755)
-%doc *.gz samples
+%doc README* tcpdump.patch CHANGES samples
 %{_infodir}/*
 %attr(755,root,root) %{_sbindir}/ciped-cb
 %dir %{_sysconfdir}/cipe
