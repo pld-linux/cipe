@@ -45,18 +45,17 @@ Requires:	%{name} = %{version}
 CIPE (the name is shortened from *Crypto IP Encapsulation*) is a
 package for an encrypting IP tunnel device. This can be used to build
 encrypting routers for VPN (Virtual Private Networks) and similar
-applications.
-This package contains PKCIPE, which simplifies setup of CIPE tunnels by
-using autoconfiguration and public/private key mechanisms.
+applications. This package contains PKCIPE, which simplifies setup of
+CIPE tunnels by using autoconfiguration and public/private key
+mechanisms.
 
 %description pkcipe -l pl
 CIPE (nazwa to skrót od *Crypto IP Encapsulation*) to pakiet do
 tworzenia szyfrowanych tuneli IP. Mo¿na je wykorzystaæ do budowania
 routerów szyfruj±cych w VPNach (Prywatnych Sieciach Wirtualnych) i
-podobnych zastosowaniach.
-Ten pakiet zawiera PKCIPE, który uprasza ustawienie tuneli CIPE przez
-korzystanie z autokonfiguracji oraz mechanizmów kluczy
-publicznych/prywatnych.
+podobnych zastosowaniach. Ten pakiet zawiera PKCIPE, który uprasza
+ustawienie tuneli CIPE przez korzystanie z autokonfiguracji oraz
+mechanizmów kluczy publicznych/prywatnych.
 
 %package -n kernel%{smpstr}-cipe
 Summary:	CIPE kernel module
