@@ -69,7 +69,9 @@ autoconf -l conf/
 %endif
 
 %{__make} \
+%if %{smp}
 	KDEFS+=" -D__KERNEL_SMP=1"
+%endif
 
 %install
 rm -rf $RPM_BUILD_ROOT
