@@ -21,7 +21,7 @@ BuildRequires:  %{kgcc_package}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		_sysconfdir	/etc
-%define		__cc		kgcc
+%define		__cc		%{kgcc}
 
 %description
 CIPE (the name is shortened from *Crypto IP Encapsulation*) is a
