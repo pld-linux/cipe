@@ -7,7 +7,7 @@ Summary:	CIPE - encrypted IP over UDP tunneling
 Summary(pl):	CIPE - szyfrowany tunel IP po UDP
 Name:		cipe
 Version:	1.5.2
-Release:	1
+Release:	2
 License:	GPL
 Group:		Networking/Daemons
 Group(de):	Netzwerkwesen/Server
@@ -15,6 +15,9 @@ Group(pl):	Sieciowe/Serwery
 Source0:	http://sites.inka.de/bigred/sw/%{name}-%{version}.tar.gz
 Patch0:		%{name}-autoconf.patch
 Patch1:		%{name}-makefile.patch
+Prereq:		%{_bindir}/openssl
+BuildRequires:	autoconf
+BuildRequires:	automake
 BuildRequires:	openssl-devel >= 0.9.6
 BuildRequires:	%{_bindir}/openssl
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
