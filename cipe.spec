@@ -1,26 +1,26 @@
-%define		_kernel_ver %(grep UTS_RELEASE %{_kernelsrcdir}/include/linux/version.h 2>/dev/null | cut -d'"' -f2)
-%define		_kernel_ver_str	%(echo %{_kernel_ver} | sed s/-/_/g)
-%define		smpstr		%{?_with_smp:-smp}
-%define		smp		%{?_with_smp:1}%{!?_with_smp:0}
-
 Summary:	CIPE - encrypted IP over UDP tunneling
 Summary(pl):	CIPE - szyfrowany tunel IP po UDP
 Name:		cipe
 Version:	1.5.2
-Release:	3
+%define		_rel 4
+Release:	%{_rel}
 License:	GPL
 Group:		Networking/Daemons
 Source0:	http://sites.inka.de/bigred/sw/%{name}-%{version}.tar.gz
 Source1:	%{name}.inetd
 Patch0:		%{name}-autoconf.patch
 Patch1:		%{name}-makefile.patch
+%{!?_without_dist_kernel:BuildRequires: kernel-headers}
 BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	openssl-devel >= 0.9.6
 BuildRequires:	%{_bindir}/openssl
+BuildRequires:  %{kgcc_package}
+
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		_sysconfdir	/etc
+%define		__cc		kgcc
 
 %description
 CIPE (the name is shortened from *Crypto IP Encapsulation*) is a
@@ -57,26 +57,49 @@ podobnych zastosowaniach. Ten pakiet zawiera PKCIPE, który uprasza
 ustawienie tuneli CIPE przez korzystanie z autokonfiguracji oraz
 mechanizmów kluczy publicznych/prywatnych.
 
-%package -n kernel%{smpstr}-cipe
+%package -n kernel-cipe
 Summary:	CIPE kernel module
 Summary(pl):	Modu³ j±dra CIPE
-Release:	%{release}@%{_kernel_ver_str}
+Release:	%{_rel}@%{_kernel_ver_str}
 Group:		Base/Kernel
 Prereq:		/sbin/depmod
+%{!?_without_dist_kernel:%requires_releq_kernel_up}
 
-%description -n kernel%{smpstr}-cipe
+%description -n kernel-cipe
 CIPE (the name is shortened from *Crypto IP Encapsulation*) is a
 package for an encrypting IP tunnel device. This can be used to build
 encrypting routers for VPN (Virtual Private Networks) and similar
 applications. This package contains a kernel module compiled for
 %{_kernel_ver}%{smpstr}.
 
-%description -n kernel%{smpstr}-cipe -l pl
+%description -n kernel-cipe -l pl
 CIPE (nazwa to skrót od *Crypto IP Encapsulation*) to pakiet do
 tworzenia szyfrowanych tuneli IP. Mo¿na je wykorzystaæ do budowania
 routerów szyfruj±cych w VPNach (Prywatnych Sieciach Wirtualnych) i
 podobnych zastosowaniach. Ten pakiet zawiera modu³ kernela
-skompilowany dla %{_kernel_ver}%{smpstr}.
+skompilowany dla %{_kernel_ver}%.
+
+%package -n kernel-smp-cipe
+Summary:	CIPE kernel module
+Summary(pl):	Modu³ j±dra CIPE
+Release:	%{_rel}@%{_kernel_ver_str}
+Group:		Base/Kernel
+Prereq:		/sbin/depmod
+%{!?_without_dist_kernel:%requires_releq_kernel_smp}
+
+%description -n kernel-smp-cipe
+CIPE (the name is shortened from *Crypto IP Encapsulation*) is a
+package for an encrypting IP tunnel device. This can be used to build
+encrypting routers for VPN (Virtual Private Networks) and similar
+applications. This package contains a kernel module compiled for
+%{_kernel_ver}%{smpstr}.
+
+%description -n kernel-smp-cipe -l pl
+CIPE (nazwa to skrót od *Crypto IP Encapsulation*) to pakiet do
+tworzenia szyfrowanych tuneli IP. Mo¿na je wykorzystaæ do budowania
+routerów szyfruj±cych w VPNach (Prywatnych Sieciach Wirtualnych) i
+podobnych zastosowaniach. Ten pakiet zawiera modu³ kernela
+skompilowany dla %{_kernel_ver}-smp.
 
 %prep
 %setup -q
@@ -87,15 +110,23 @@ skompilowany dla %{_kernel_ver}%{smpstr}.
 mv -f conf/aclocal.m4 conf/acinclude.m4
 aclocal -I conf --output=conf/aclocal.m4
 autoconf -l conf/
-%if %{smp}
+
+%configure \
+	--with-linux=%{_kernelsrcdir} \
+	--with-ciped=%{_sbindir}/ciped-cb
+
+%{__make} modules
+
+mkdir modules/
+mv -f */cipcb.o modules/
+
+make clean
+
 DEFS="-D__SMP__ -D__KERNEL_SMP=1" \
-%endif
 %configure \
 	--with-linux=%{_kernelsrcdir} \
 	--with-ciped=%{_sbindir}/ciped-cb \
-%if %{smp}
 	--enable-smp
-%endif
 
 %{__make}
 
@@ -105,11 +136,13 @@ rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT{%{_bindir},%{_sbindir},%{_infodir}} \
 	$RPM_BUILD_ROOT%{_sysconfdir}/cipe/pk \
 	$RPM_BUILD_ROOT/lib/modules/%{_kernel_ver}/misc \
+	$RPM_BUILD_ROOT/lib/modules/%{_kernel_ver}smp/misc \
 	$RPM_BUILD_ROOT%{_var}/run/cipe \
 	$RPM_BUILD_ROOT/etc/sysconfig/rc-inetd
 
 install pkcipe/pkcipe $RPM_BUILD_ROOT%{_sbindir}
 install pkcipe/rsa-keygen $RPM_BUILD_ROOT%{_bindir}
+mv -f modules/cipcb.o $RPM_BUILD_ROOT/lib/modules/%{_kernel_ver}smp/misc
 install */cipcb.o $RPM_BUILD_ROOT/lib/modules/%{_kernel_ver}/misc
 install */ciped-cb $RPM_BUILD_ROOT%{_sbindir}
 install cipe.info $RPM_BUILD_ROOT%{_infodir}
@@ -139,10 +172,16 @@ if [ "$1" = "0" -a -f /var/lock/subsys/rc-inetd ]; then
 	/etc/rc.d/init.d/rc-inetd reload
 fi
 
-%post -n kernel%{smpstr}-cipe
+%post -n kernel-cipe
 /sbin/depmod -a
 
-%postun -n kernel%{smpstr}-cipe
+%postun -n kernel-cipe
+/sbin/depmod -a
+
+%post -n kernel-smp-cipe
+/sbin/depmod -a
+
+%postun -n kernel-smp-cipe
 /sbin/depmod -a
 
 %files
@@ -160,6 +199,10 @@ fi
 %attr(700,root,root) %dir %{_sysconfdir}/cipe/pk
 %attr(640,root,root) %config %verify(not size mtime md5) /etc/sysconfig/rc-inetd/pkcipe
 
-%files -n kernel%{smpstr}-cipe
+%files -n kernel-cipe
 %defattr(644,root,root,755)
-%attr(600,root,root) /lib/modules/*/misc/cipcb.o
+%attr(600,root,root) /lib/modules/%{_kernel_ver}/misc/cipcb.o
+
+%files -n kernel-smp-cipe
+%defattr(644,root,root,755)
+%attr(600,root,root) /lib/modules/%{_kernel_ver}smp/misc/cipcb.o
