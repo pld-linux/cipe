@@ -168,8 +168,8 @@ install -d $RPM_BUILD_ROOT{%{_bindir},%{_sbindir},%{_infodir}} \
 
 install pkcipe/pkcipe $RPM_BUILD_ROOT%{_sbindir}
 install pkcipe/rsa-keygen $RPM_BUILD_ROOT%{_bindir}
-mv -f modules/cipcb.o $RPM_BUILD_ROOT/lib/modules/%{_kernel_ver}smp/misc
-install */cipcb.o $RPM_BUILD_ROOT/lib/modules/%{_kernel_ver}/misc
+mv -f modules/cipcb.o $RPM_BUILD_ROOT/lib/modules/%{_kernel_ver}/misc
+install */cipcb.o $RPM_BUILD_ROOT/lib/modules/%{_kernel_ver}smp/misc
 install */ciped-cb $RPM_BUILD_ROOT%{_sbindir}
 install cipe.info $RPM_BUILD_ROOT%{_infodir}
 install %{SOURCE1} $RPM_BUILD_ROOT/etc/sysconfig/rc-inetd/pkcipe
