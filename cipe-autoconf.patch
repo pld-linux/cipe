@@ -1,0 +1,50 @@
+diff -Naur cipe-1.5.2/configure.in cipe-1.5.2-p/configure.in
+--- cipe-1.5.2/configure.in	Tue May  1 23:23:38 2001
++++ cipe-1.5.2-p/configure.in	Tue Nov  6 17:58:33 2001
+@@ -13,8 +13,6 @@
+ dnl
+ AC_PREREQ(2.13)
+ AC_INIT(cipe/ciped.c)
+-AC_CONFIG_HEADER($BUILD/config.h:conf/config.h.in pkcipe/config.h)
+-dnl $BUILD is set below - this works for autoconf 2.13, somewhat undocumented
+ AC_SUBST(VERSION)
+ VERSION=1.5.2
+ AC_SUBST(PVERSION)
+@@ -351,6 +349,8 @@
+ else
+   BUILD=$KVERS-$ARCH-$verl$crypt$name
+ fi
++
++AC_CONFIG_HEADER($BUILD/config.h:conf/config.h.in pkcipe/config.h)
+ 
+ AC_SUBST(BUILD_PKCIPE)
+ set `echo $VERSION | tr . ' '`
+--- cipe-1.5.2/configure.in	Wed Nov  7 16:00:26 2001
++++ cipe-1.5.2-p/configure.in	Wed Nov  7 15:59:28 2001
+@@ -136,23 +136,10 @@
+   fi
+ fi
+ 
+-AC_MSG_CHECKING(for SMP)
+-smp=0
+-case "$KVERS" in
+-2.[[01]].*)
+-  AX_EGREP([^ *SMP *= *1], $KSRC/Makefile, smp=1)
+-  ;;
+-*)
+-  AC_EGREP_CPP(yes, [
+-	#include <linux/autoconf.h>
+-	#ifdef CONFIG_SMP
+-	 yes
+-	#endif
+-  ], smp=1)
+-  ;;
+-esac
++AC_ARG_ENABLE(smp,
++[  --enable-smp            Build CIPE for SMP architecture],
++smp=1, smp=0)
+ test "$smp" = 1 && AC_DEFINE(__SMP__)
+-AX_MSG_RESULT_YN($smp)
+ 
+ AC_SUBST(KCC)
+ CPPFLAGS="$oldcppflags"
