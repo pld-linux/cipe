@@ -40,6 +40,7 @@ Summary(pl):	PKCIPE - narzêdzie do wykorzystania kluczy publicznych w CIPE
 Group:		Networking/Daemons
 Prereq:		%{_bindir}/openssl
 Requires:	%{name} = %{version}
+Requires:	inetdaemon
 
 %description pkcipe
 CIPE (the name is shortened from *Crypto IP Encapsulation*) is a
