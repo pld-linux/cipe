@@ -19,7 +19,7 @@ Patch2:		%{name}-pk%{name}-real-peer.patch
 Patch3:		%{name}-get_fast_time.patch
 Patch4:		%{name}-alpha.patch
 URL:		http://sites.inka.de/bigred/devel/cipe.html
-%{!?_without_dist_kernel:BuildRequires: kernel-headers}
+%{!?_without_dist_kernel:BuildRequires:	kernel-headers}
 BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	openssl-devel >= 0.9.7
