@@ -65,6 +65,9 @@ skompilowany dla %{_kernel_ver}%{smpstr}.
 mv -f conf/aclocal.m4 conf/acinclude.m4
 aclocal -I conf --output=conf/aclocal.m4
 autoconf -l conf/
+%if %{smp}
+DEFS="-D__SMP__ -D__KERNEL_SMP=1" \
+%endif
 %configure \
 	--with-linux=%{_kernelsrcdir} \
 	--with-ciped=%{_sbindir}/ciped-cb \
@@ -72,10 +75,7 @@ autoconf -l conf/
 	--enable-smp
 %endif
 
-%{__make} \
-%if %{smp}
-	KDEFS+=" -D__KERNEL_SMP=1"
-%endif
+%{__make}
 
 %install
 rm -rf $RPM_BUILD_ROOT
