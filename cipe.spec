@@ -10,8 +10,6 @@ Version:	1.5.2
 Release:	3
 License:	GPL
 Group:		Networking/Daemons
-Group(de):	Netzwerkwesen/Server
-Group(pl):	Sieciowe/Serwery
 Source0:	http://sites.inka.de/bigred/sw/%{name}-%{version}.tar.gz
 Source1:	%{name}.inetd
 Patch0:		%{name}-autoconf.patch
@@ -40,8 +38,6 @@ podobnych zastosowaniach.
 Summary:	The PKCIPE public key tool for CIPE
 Summary(pl):	PKCIPE - narzêdzie do wykorzystania kluczy publicznych w CIPE
 Group:		Networking/Daemons
-Group(de):	Netzwerkwesen/Server
-Group(pl):	Sieciowe/Serwery
 Prereq:		%{_bindir}/openssl
 Requires:	%{name} = %{version}
 
@@ -67,8 +63,6 @@ Summary:	CIPE kernel module
 Summary(pl):	Modu³ j±dra CIPE
 Release:	%{release}@%{_kernel_ver_str}
 Group:		Base/Kernel
-Group(de):	Grundsätzlich/Kern
-Group(pl):	Podstawowe/J±dro
 Prereq:		/sbin/depmod
 
 %description -n kernel%{smpstr}-cipe
