@@ -64,6 +64,7 @@ aclocal -I conf --output=conf/aclocal.m4
 autoconf -l conf/
 %configure \
 	--with-linux=%{_kernelsrcdir} \
+	--with-ciped=%{_sbindir}/ciped-cb \
 %if %{smp}
 	--enable-smp
 %endif
@@ -78,14 +79,14 @@ rm -rf $RPM_BUILD_ROOT
 
 install -d $RPM_BUILD_ROOT{%{_bindir},%{_sbindir},%{_infodir}} \
 	$RPM_BUILD_ROOT%{_sysconfdir}/cipe/pk \
-	$RPM_BUILD_ROOT/lib/modules/%{_kernel_ver}/misc
+	$RPM_BUILD_ROOT/lib/modules/%{_kernel_ver}/misc \
+	$RPM_BUILD_ROOT%{_var}/run/cipe
 
 install pkcipe/pkcipe $RPM_BUILD_ROOT%{_sbindir}
 install pkcipe/rsa-keygen $RPM_BUILD_ROOT%{_bindir}
 install */cipcb.o $RPM_BUILD_ROOT/lib/modules/%{_kernel_ver}/misc
 install */ciped-cb $RPM_BUILD_ROOT%{_sbindir}
 install cipe.info $RPM_BUILD_ROOT%{_infodir}
-install -d $RPM_BUILD_ROOT%{_sysconfdir}/cipe/pk
 gzip -9nf README* tcpdump.patch CHANGES
 
 %post
@@ -112,6 +113,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/*
 %dir %{_sysconfdir}/cipe
 %attr(700,root,root) %dir %{_sysconfdir}/cipe/pk
+%attr(755,root,root) %dir %{_sysconfdir}%{_var}/run/cipe
 
 %files -n kernel%{smpstr}-cipe
 %defattr(644,root,root,755)
