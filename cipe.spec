@@ -10,7 +10,7 @@ Source0:	http://sites.inka.de/bigred/sw/%{name}-%{version}.tar.gz
 Source1:	%{name}.inetd
 Patch0:		%{name}-autoconf.patch
 Patch1:		%{name}-makefile.patch
-Patch2:		%{name}-pkcipe-real-peer.patch
+Patch2:		%{name}-pk%{name}-real-peer.patch
 Patch3:		%{name}-get_fast_time.patch
 Patch4:		%{name}-alpha.patch
 %{!?_without_dist_kernel:BuildRequires: kernel-headers}
@@ -18,7 +18,7 @@ BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	openssl-devel >= 0.9.6
 BuildRequires:	/usr/bin/openssl
-BuildRequires:  %{kgcc_package}
+BuildRequires:	%{kgcc_package}
 
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -72,17 +72,18 @@ Requires:	inetdaemon
 CIPE (the name is shortened from *Crypto IP Encapsulation*) is a
 package for an encrypting IP tunnel device. This can be used to build
 encrypting routers for VPN (Virtual Private Networks) and similar
-applications. This package contains server part PKCIPE, which simplifies
-setup of CIPE tunnels by using autoconfiguration and public/private key
-mechanisms.
+applications. This package contains server part PKCIPE, which
+simplifies setup of CIPE tunnels by using autoconfiguration and
+public/private key mechanisms.
 
 %description pkcipe-server -l pl
 CIPE (nazwa to skrót od *Crypto IP Encapsulation*) to pakiet do
 tworzenia szyfrowanych tuneli IP. Mo¿na je wykorzystaæ do budowania
 routerów szyfruj±cych w VPNach (Prywatnych Sieciach Wirtualnych) i
-podobnych zastosowaniach. Ten pakiet zawiera PKCIPE do u¿ycia po stronie
-serwera, który uprasza ustawienie tuneli CIPE przez korzystanie z
-autokonfiguracji oraz mechanizmów kluczy publicznych/prywatnych.
+podobnych zastosowaniach. Ten pakiet zawiera PKCIPE do u¿ycia po
+stronie serwera, który uprasza ustawienie tuneli CIPE przez
+korzystanie z autokonfiguracji oraz mechanizmów kluczy
+publicznych/prywatnych.
 
 %package -n kernel-cipe
 Summary:	CIPE kernel module
