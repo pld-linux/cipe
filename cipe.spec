@@ -4,6 +4,7 @@
 %define		smp		%{?_with_smp:1}%{!?_with_smp:0}
 
 Summary:	CIPE - encrypted IP over UDP tunneling
+Summary(pl):	CIPE - szyfrowany tunel IP po UDP
 Name:		cipe
 Version:	1.5.2
 Release:	1
@@ -27,17 +28,19 @@ encrypting routers for VPN (Virtual Private Networks) and similar
 applications.
 
 %description -l pl
-CIPE (naswa to skrót od *Crypto IP Encapsulation*) to pakiet do
+CIPE (nazwa to skrót od *Crypto IP Encapsulation*) to pakiet do
 tworzenia szyfrowanych tuneli IP. Mo¿na je wykorzystaæ do budowania
 routerów szyfruj±cych w VPNach (Prywatnych Sieciach Wirtualnych) i
 podobnych zastosowaniach.
 
 %package -n kernel%{smpstr}-cipe
 Summary:	CIPE kernel module
+Summary(pl):	Modu³ j±dra CIPE
 Release:	%{release}@%{_kernel_ver_str}
 Group:		Base/Kernel
 Group(de):	Grundsätzlich/Kern
 Group(pl):	Podstawowe/J±dro
+Prereq:		/sbin/depmod
 
 %description -n kernel%{smpstr}-cipe
 CIPE (the name is shortened from *Crypto IP Encapsulation*) is a
@@ -47,7 +50,7 @@ applications. This package contains a kernel module compiled for
 %{_kernel_ver}%{smpstr}.
 
 %description -n kernel%{smpstr}-cipe -l pl
-CIPE (naswa to skrót od *Crypto IP Encapsulation*) to pakiet do
+CIPE (nazwa to skrót od *Crypto IP Encapsulation*) to pakiet do
 tworzenia szyfrowanych tuneli IP. Mo¿na je wykorzystaæ do budowania
 routerów szyfruj±cych w VPNach (Prywatnych Sieciach Wirtualnych) i
 podobnych zastosowaniach. Ten pakiet zawiera modu³ kernela
@@ -89,21 +92,21 @@ install */ciped-cb $RPM_BUILD_ROOT%{_sbindir}
 install cipe.info $RPM_BUILD_ROOT%{_infodir}
 gzip -9nf README* tcpdump.patch CHANGES
 
+%clean
+rm -rf $RPM_BUILD_ROOT
+
 %post
 [ ! -f %{_sysconfdir}/cipe/identity.priv ] && %{_bindir}/rsa-keygen %{_sysconfdir}/cipe/identity
+[ ! -x /usr/sbin/fix-info-dir ] || /usr/sbin/fix-info-dir -c %{_infodir} >/dev/null 2>&1
+
+%postun
 [ ! -x /usr/sbin/fix-info-dir ] || /usr/sbin/fix-info-dir -c %{_infodir} >/dev/null 2>&1
 
 %post -n kernel%{smpstr}-cipe
 /sbin/depmod -a
 
-%postun
-[ ! -x /usr/sbin/fix-info-dir ] || /usr/sbin/fix-info-dir -c %{_infodir} >/dev/null 2>&1
-
 %postun -n kernel%{smpstr}-cipe
 /sbin/depmod -a
-
-%clean
-rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
