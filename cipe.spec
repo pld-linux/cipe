@@ -2,7 +2,7 @@ Summary:	CIPE - encrypted IP over UDP tunneling
 Summary(pl):	CIPE - szyfrowany tunel IP po UDP
 Name:		cipe
 Version:	1.5.2
-%define	_rel	8
+%define	_rel	9
 Release:	%{_rel}
 License:	GPL
 Group:		Networking/Daemons
@@ -234,8 +234,8 @@ fi
 
 %files -n kernel-cipe
 %defattr(644,root,root,755)
-%attr(600,root,root) /lib/modules/%{_kernel_ver}/misc/cipcb.o
+%attr(600,root,root) /lib/modules/%{_kernel_ver}/misc/cipcb.o*
 
 %files -n kernel-smp-cipe
 %defattr(644,root,root,755)
-%attr(600,root,root) /lib/modules/%{_kernel_ver}smp/misc/cipcb.o
+%attr(600,root,root) /lib/modules/%{_kernel_ver}smp/misc/cipcb.o*
