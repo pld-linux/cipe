@@ -111,7 +111,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_sbindir}/*
 %attr(755,root,root) %{_bindir}/*
 %dir %{_sysconfdir}/cipe
-%dir %{_sysconfdir}/cipe/pk
+%attr(700,root,root) %dir %{_sysconfdir}/cipe/pk
 
 %files -n kernel%{smpstr}-cipe
 %defattr(644,root,root,755)
