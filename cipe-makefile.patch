@@ -18,3 +18,28 @@
  	fi
  
  clean:
+diff -Naur cipe-1.5.2/conf/Makefile-obj.in cipe-1.5.2-p/conf/Makefile-obj.in
+--- cipe-1.5.2/conf/Makefile-obj.in	Fri Apr 26 10:29:53 2002
++++ cipe-1.5.2-p/conf/Makefile-obj.in	Fri Apr 26 10:22:33 2002
+@@ -40,6 +40,8 @@
+ 
+ all::	$(MODULE) $(CIPED)
+ 
++modules:: $(MODULE)
++
+ install:: all
+ 	-mkdir -p $(MODDIR) $(BINDIR)
+ 	install -m 644 $(MODULE) $(MODDIR)
+diff -Naur cipe-1.5.2/conf/Makefile-top.in cipe-1.5.2-p/conf/Makefile-top.in
+--- cipe-1.5.2/conf/Makefile-top.in	Fri Apr 26 10:30:00 2002
++++ cipe-1.5.2-p/conf/Makefile-top.in	Fri Apr 26 10:22:22 2002
+@@ -23,6 +23,9 @@
+ 
+ default: all
+ 
++modules:
++	$(MAKE) -C $(BUILD) modules
++
+ SRCS:=	cipe.h crypto.h \
+ 	ciped.c ciped.h ioctl.c ioctl.h options.in genoptions.pl \
+ 	module.c device.c sock.c output.c encaps.c \
