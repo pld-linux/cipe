@@ -1,10 +1,17 @@
 --- cipe-1.5.2/pkcipe/main.c	Fri Jan  5 00:04:38 2001
-+++ cipe-1.5.2-p/pkcipe/main.c	Sun May  5 22:11:40 2002
-@@ -270,6 +270,7 @@
++++ cipe-1.5.2-p/pkcipe/main.c	Tue May  7 09:32:08 2002
+@@ -265,11 +265,14 @@
+     } else {
+ 	struct sockaddr_in sa;
+ 	int ss=sizeof(sa);
++	char real_peer[256];
+ 	if (getpeername(0, &sa, &ss)<0) {
+ 	    Log(LOG_ERR, "main: getsockname: %m");
  	    sa.sin_addr.s_addr=htonl(INADDR_ANY);
  	}
  	Log(LOG_INFO, "connect from %s", inet_ntoa(sa.sin_addr));
-+	setenv("real_peer", inet_ntoa(sa.sin_addr), 1);
++	snprintf(real_peer, 128, "%s:%d", inet_ntoa(sa.sin_addr), sa.sin_port);
++	setenv("real_peer", real_peer, 1);
  	return doFD(0, or ? ra.sin_addr : sa.sin_addr);
      }
  }
