@@ -2,7 +2,7 @@ Summary:	CIPE - encrypted IP over UDP tunneling
 Summary(pl):	CIPE - szyfrowany tunel IP po UDP
 Name:		cipe
 Version:	1.5.4
-%define	_rel	12
+%define	_rel	1
 Release:	%{_rel}
 License:	GPL
 Group:		Networking/Daemons
@@ -148,8 +148,15 @@ mv -f conf/aclocal.m4 conf/acinclude.m4
 
 %{__make} modules
 
+%configure \
+	--with-linux=%{_kernelsrcdir} \
+	--with-ciped=%{_sbindir}/ciped-db \
+	--enable-protocol=4
+
+%{__make} modules
+
 mkdir modules/
-mv -f */cipcb.o modules/
+mv -f */cip?b.o modules/
 
 %{__make} clean
 
@@ -158,6 +165,15 @@ DEFS="-D__SMP__ -D__KERNEL_SMP=1" \
 	--with-linux=%{_kernelsrcdir} \
 	--with-ciped=%{_sbindir}/ciped-cb \
 	--enable-smp
+
+%{__make}
+
+DEFS="-D__SMP__ -D__KERNEL_SMP=1" \
+%configure \
+	--with-linux=%{_kernelsrcdir} \
+	--with-ciped=%{_sbindir}/ciped-cb \
+	--enable-smp \
+	--enable-protocol=4
 
 %{__make}
 
@@ -173,9 +189,9 @@ install -d $RPM_BUILD_ROOT{%{_bindir},%{_sbindir},%{_infodir}} \
 
 install pkcipe/pkcipe $RPM_BUILD_ROOT%{_sbindir}
 install pkcipe/rsa-keygen $RPM_BUILD_ROOT%{_bindir}
-mv -f modules/cipcb.o $RPM_BUILD_ROOT/lib/modules/%{_kernel_ver}/misc
-install */cipcb.o $RPM_BUILD_ROOT/lib/modules/%{_kernel_ver}smp/misc
-install */ciped-cb $RPM_BUILD_ROOT%{_sbindir}
+mv -f modules/cip?b.o $RPM_BUILD_ROOT/lib/modules/%{_kernel_ver}/misc
+install */cip?b.o $RPM_BUILD_ROOT/lib/modules/%{_kernel_ver}smp/misc
+install */ciped-?b $RPM_BUILD_ROOT%{_sbindir}
 install cipe.info $RPM_BUILD_ROOT%{_infodir}
 install %{SOURCE1} $RPM_BUILD_ROOT/etc/sysconfig/rc-inetd/pkcipe
 
@@ -219,7 +235,7 @@ fi
 %defattr(644,root,root,755)
 %doc README* tcpdump.patch CHANGES samples
 %{_infodir}/*
-%attr(755,root,root) %{_sbindir}/ciped-cb
+%attr(755,root,root) %{_sbindir}/ciped-*
 %dir %{_sysconfdir}/cipe
 %attr(755,root,root) %dir %{_var}/run/cipe
 
@@ -235,8 +251,8 @@ fi
 
 %files -n kernel-cipe
 %defattr(644,root,root,755)
-%attr(600,root,root) /lib/modules/%{_kernel_ver}/misc/cipcb.o*
+%attr(600,root,root) /lib/modules/%{_kernel_ver}/misc/cip*.o*
 
 %files -n kernel-smp-cipe
 %defattr(644,root,root,755)
-%attr(600,root,root) /lib/modules/%{_kernel_ver}smp/misc/cipcb.o*
+%attr(600,root,root) /lib/modules/%{_kernel_ver}smp/misc/cip*.o*
