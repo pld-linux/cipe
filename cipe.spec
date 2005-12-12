@@ -19,13 +19,13 @@ Patch2:		%{name}-pk%{name}-real-peer.patch
 Patch3:		%{name}-get_fast_time.patch
 Patch4:		%{name}-alpha.patch
 URL:		http://sites.inka.de/bigred/devel/cipe.html
-%{!?_without_dist_kernel:BuildRequires:	kernel-headers}
+BuildRequires:	%{kgcc_package}
+BuildRequires:	/usr/bin/openssl
 BuildRequires:	autoconf
 BuildRequires:	automake
+%{!?_without_dist_kernel:BuildRequires:	kernel-headers}
 BuildRequires:	openssl-devel >= 0.9.7d
-BuildRequires:	/usr/bin/openssl
 BuildRequires:	rpmbuild(macros) >= 1.118
-BuildRequires:	%{kgcc_package}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		__cc		%{kgcc}
@@ -46,7 +46,7 @@ podobnych zastosowaniach.
 Summary:	The PKCIPE public key tool for CIPE
 Summary(pl):	PKCIPE - narzêdzie do wykorzystania kluczy publicznych w CIPE
 Group:		Networking/Daemons
-Prereq:		/usr/bin/openssl
+Requires:	/usr/bin/openssl
 Requires:	%{name} = %{version}
 Obsoletes:	%{name}-pkcipe
 
@@ -251,7 +251,7 @@ fi
 
 %files pkcipe-server
 %defattr(644,root,root,755)
-%attr(640,root,root) %config %verify(not size mtime md5) /etc/sysconfig/rc-inetd/pkcipe
+%attr(640,root,root) %config(noreplace) %verify(not md5 mtime size) /etc/sysconfig/rc-inetd/pkcipe
 
 %files -n kernel-cipe
 %defattr(644,root,root,755)
