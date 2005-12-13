@@ -1,6 +1,6 @@
 #
 # Conditional build:
-# _without_dist_kernel	- without kernel from distribution
+%bcond_without	dist_kernel	# without kernel from distribution
 #
 Summary:	CIPE - encrypted IP over UDP tunneling
 Summary(pl):	CIPE - szyfrowany tunel IP po UDP
@@ -23,7 +23,7 @@ BuildRequires:	%{kgcc_package}
 BuildRequires:	/usr/bin/openssl
 BuildRequires:	autoconf
 BuildRequires:	automake
-%{!?_without_dist_kernel:BuildRequires:	kernel-headers}
+%{?with_dist_kernel:BuildRequires:	kernel-headers}
 BuildRequires:	openssl-devel >= 0.9.7d
 BuildRequires:	rpmbuild(macros) >= 1.118
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -47,8 +47,8 @@ Summary:	The PKCIPE public key tool for CIPE
 Summary(pl):	PKCIPE - narzêdzie do wykorzystania kluczy publicznych w CIPE
 Group:		Networking/Daemons
 Requires:	/usr/bin/openssl
-Requires:	%{name} = %{version}
-Obsoletes:	%{name}-pkcipe
+Requires:	%{name} = %{version}-%{release}
+Obsoletes:	cipe-pkcipe
 
 %description pkcipe-client
 CIPE (the name is shortened from *Crypto IP Encapsulation*) is a
@@ -70,7 +70,7 @@ mechanizmów kluczy publicznych/prywatnych.
 Summary:	The PKCIPE public key tool for CIPE - server side
 Summary(pl):	PKCIPE - narzêdzie do wykorzystania kluczy publicznych w CIPE
 Group:		Networking/Daemons
-Requires:	%{name}-pkcipe-client = %{version}
+Requires:	%{name}-pkcipe-client = %{version}-%{release}
 Requires:	inetdaemon
 
 %description pkcipe-server
@@ -95,7 +95,7 @@ Summary:	CIPE kernel module
 Summary(pl):	Modu³ j±dra CIPE
 Release:	%{_rel}@%{_kernel_ver_str}
 Group:		Base/Kernel
-%{!?_without_dist_kernel:%requires_releq_kernel_up}
+%{?with_dist_kernel:%requires_releq_kernel_up}
 Requires(post,postun):	/sbin/depmod
 
 %description -n kernel-cipe
@@ -103,21 +103,21 @@ CIPE (the name is shortened from *Crypto IP Encapsulation*) is a
 package for an encrypting IP tunnel device. This can be used to build
 encrypting routers for VPN (Virtual Private Networks) and similar
 applications. This package contains a kernel module compiled for
-%{_kernel_ver}%{smpstr}.
+%{_kernel_ver}.
 
 %description -n kernel-cipe -l pl
 CIPE (nazwa to skrót od *Crypto IP Encapsulation*) to pakiet do
 tworzenia szyfrowanych tuneli IP. Mo¿na je wykorzystaæ do budowania
 routerów szyfruj±cych w VPNach (Prywatnych Sieciach Wirtualnych) i
 podobnych zastosowaniach. Ten pakiet zawiera modu³ kernela
-skompilowany dla %{_kernel_ver}%.
+skompilowany dla %{_kernel_ver}.
 
 %package -n kernel-smp-cipe
 Summary:	CIPE kernel module
 Summary(pl):	Modu³ j±dra CIPE
 Release:	%{_rel}@%{_kernel_ver_str}
 Group:		Base/Kernel
-%{!?_without_dist_kernel:%requires_releq_kernel_smp}
+%{?with_dist_kernel:%requires_releq_kernel_smp}
 Requires(post,postun):	/sbin/depmod
 
 %description -n kernel-smp-cipe
@@ -125,14 +125,14 @@ CIPE (the name is shortened from *Crypto IP Encapsulation*) is a
 package for an encrypting IP tunnel device. This can be used to build
 encrypting routers for VPN (Virtual Private Networks) and similar
 applications. This package contains a kernel module compiled for
-%{_kernel_ver}%{smpstr}.
+%{_kernel_ver}smp.
 
 %description -n kernel-smp-cipe -l pl
 CIPE (nazwa to skrót od *Crypto IP Encapsulation*) to pakiet do
 tworzenia szyfrowanych tuneli IP. Mo¿na je wykorzystaæ do budowania
 routerów szyfruj±cych w VPNach (Prywatnych Sieciach Wirtualnych) i
 podobnych zastosowaniach. Ten pakiet zawiera modu³ kernela
-skompilowany dla %{_kernel_ver}-smp.
+skompilowany dla %{_kernel_ver}smp.
 
 %prep
 %setup -q
@@ -160,8 +160,8 @@ mv -f conf/aclocal.m4 conf/acinclude.m4
 
 %{__make} modules
 
-mkdir modules/
-mv -f */cip?b.o modules/
+mkdir modules
+mv -f */cip?b.o modules
 
 %{__make} clean
 
@@ -238,10 +238,10 @@ fi
 %files
 %defattr(644,root,root,755)
 %doc README* tcpdump.patch CHANGES samples
-%{_infodir}/*
 %attr(755,root,root) %{_sbindir}/ciped-*
 %dir %{_sysconfdir}/cipe
 %attr(755,root,root) %dir %{_var}/run/cipe
+%{_infodir}/*.info*
 
 %files pkcipe-client
 %defattr(644,root,root,755)
