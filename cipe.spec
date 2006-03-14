@@ -2,11 +2,11 @@
 # Conditional build:
 %bcond_without	dist_kernel	# without kernel from distribution
 #
+%define	_rel	1
 Summary:	CIPE - encrypted IP over UDP tunneling
 Summary(pl):	CIPE - szyfrowany tunel IP po UDP
 Name:		cipe
 Version:	1.5.4
-%define	_rel	1
 Release:	%{_rel}
 License:	GPL
 Group:		Networking/Daemons
@@ -25,7 +25,7 @@ BuildRequires:	autoconf
 BuildRequires:	automake
 %{?with_dist_kernel:BuildRequires:	kernel-headers}
 BuildRequires:	openssl-devel >= 0.9.7d
-BuildRequires:	rpmbuild(macros) >= 1.118
+BuildRequires:	rpmbuild(macros) >= 1.268
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		__cc		%{kgcc}
@@ -46,8 +46,8 @@ podobnych zastosowaniach.
 Summary:	The PKCIPE public key tool for CIPE
 Summary(pl):	PKCIPE - narzêdzie do wykorzystania kluczy publicznych w CIPE
 Group:		Networking/Daemons
-Requires:	/usr/bin/openssl
 Requires:	%{name} = %{version}-%{release}
+Requires:	/usr/bin/openssl
 Obsoletes:	cipe-pkcipe
 
 %description pkcipe-client
@@ -212,15 +212,11 @@ rm -rf $RPM_BUILD_ROOT
 [ ! -f %{_sysconfdir}/cipe/identity.priv ] && %{_bindir}/rsa-keygen %{_sysconfdir}/cipe/identity
 
 %post pkcipe-server
-if [ -f /var/lock/subsys/rc-inetd ]; then
-	/etc/rc.d/init.d/rc-inetd reload 1>&2
-else
-	echo "Type \"/etc/rc.d/init.d/rc-inetd start\" to start inet server" 1>&2
-fi
+%service -q rc-inetd reload
 
 %postun pkcipe-server
-if [ "$1" = "0" -a -f /var/lock/subsys/rc-inetd ]; then
-	/etc/rc.d/init.d/rc-inetd reload
+if [ "$1" = "0" ]; then
+	%service -q rc-inetd reload
 fi
 
 %post	-n kernel-cipe
