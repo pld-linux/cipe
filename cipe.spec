@@ -4,7 +4,7 @@
 #
 %define	_rel	1
 Summary:	CIPE - encrypted IP over UDP tunneling
-Summary(pl.UTF-8):   CIPE - szyfrowany tunel IP po UDP
+Summary(pl.UTF-8):	CIPE - szyfrowany tunel IP po UDP
 Name:		cipe
 Version:	1.5.4
 Release:	%{_rel}
@@ -44,7 +44,7 @@ podobnych zastosowaniach.
 
 %package pkcipe-client
 Summary:	The PKCIPE public key tool for CIPE
-Summary(pl.UTF-8):   PKCIPE - narzędzie do wykorzystania kluczy publicznych w CIPE
+Summary(pl.UTF-8):	PKCIPE - narzędzie do wykorzystania kluczy publicznych w CIPE
 Group:		Networking/Daemons
 Requires:	%{name} = %{version}-%{release}
 Requires:	/usr/bin/openssl
@@ -68,7 +68,7 @@ mechanizmów kluczy publicznych/prywatnych.
 
 %package pkcipe-server
 Summary:	The PKCIPE public key tool for CIPE - server side
-Summary(pl.UTF-8):   PKCIPE - narzędzie do wykorzystania kluczy publicznych w CIPE
+Summary(pl.UTF-8):	PKCIPE - narzędzie do wykorzystania kluczy publicznych w CIPE
 Group:		Networking/Daemons
 Requires:	%{name}-pkcipe-client = %{version}-%{release}
 Requires:	inetdaemon
@@ -92,7 +92,7 @@ publicznych/prywatnych.
 
 %package -n kernel-cipe
 Summary:	CIPE kernel module
-Summary(pl.UTF-8):   Moduł jądra CIPE
+Summary(pl.UTF-8):	Moduł jądra CIPE
 Release:	%{_rel}@%{_kernel_ver_str}
 Group:		Base/Kernel
 %{?with_dist_kernel:%requires_releq_kernel_up}
@@ -114,7 +114,7 @@ skompilowany dla %{_kernel_ver}.
 
 %package -n kernel-smp-cipe
 Summary:	CIPE kernel module
-Summary(pl.UTF-8):   Moduł jądra CIPE
+Summary(pl.UTF-8):	Moduł jądra CIPE
 Release:	%{_rel}@%{_kernel_ver_str}
 Group:		Base/Kernel
 %{?with_dist_kernel:%requires_releq_kernel_smp}
