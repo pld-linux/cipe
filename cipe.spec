@@ -4,7 +4,7 @@
 #
 %define	_rel	1
 Summary:	CIPE - encrypted IP over UDP tunneling
-Summary(pl):	CIPE - szyfrowany tunel IP po UDP
+Summary(pl.UTF-8):   CIPE - szyfrowany tunel IP po UDP
 Name:		cipe
 Version:	1.5.4
 Release:	%{_rel}
@@ -36,15 +36,15 @@ package for an encrypting IP tunnel device. This can be used to build
 encrypting routers for VPN (Virtual Private Networks) and similar
 applications.
 
-%description -l pl
-CIPE (nazwa to skrót od *Crypto IP Encapsulation*) to pakiet do
-tworzenia szyfrowanych tuneli IP. Mo¿na je wykorzystaæ do budowania
-routerów szyfruj±cych w VPNach (Prywatnych Sieciach Wirtualnych) i
+%description -l pl.UTF-8
+CIPE (nazwa to skrÃ³t od *Crypto IP Encapsulation*) to pakiet do
+tworzenia szyfrowanych tuneli IP. MoÅ¼na je wykorzystaÄ‡ do budowania
+routerÃ³w szyfrujÄ…cych w VPNach (Prywatnych Sieciach Wirtualnych) i
 podobnych zastosowaniach.
 
 %package pkcipe-client
 Summary:	The PKCIPE public key tool for CIPE
-Summary(pl):	PKCIPE - narzêdzie do wykorzystania kluczy publicznych w CIPE
+Summary(pl.UTF-8):   PKCIPE - narzÄ™dzie do wykorzystania kluczy publicznych w CIPE
 Group:		Networking/Daemons
 Requires:	%{name} = %{version}-%{release}
 Requires:	/usr/bin/openssl
@@ -58,17 +58,17 @@ applications. This package contains PKCIPE, which simplifies setup of
 CIPE tunnels by using autoconfiguration and public/private key
 mechanisms.
 
-%description pkcipe-client -l pl
-CIPE (nazwa to skrót od *Crypto IP Encapsulation*) to pakiet do
-tworzenia szyfrowanych tuneli IP. Mo¿na je wykorzystaæ do budowania
-routerów szyfruj±cych w VPNach (Prywatnych Sieciach Wirtualnych) i
-podobnych zastosowaniach. Ten pakiet zawiera PKCIPE, który uprasza
+%description pkcipe-client -l pl.UTF-8
+CIPE (nazwa to skrÃ³t od *Crypto IP Encapsulation*) to pakiet do
+tworzenia szyfrowanych tuneli IP. MoÅ¼na je wykorzystaÄ‡ do budowania
+routerÃ³w szyfrujÄ…cych w VPNach (Prywatnych Sieciach Wirtualnych) i
+podobnych zastosowaniach. Ten pakiet zawiera PKCIPE, ktÃ³ry uprasza
 ustawienie tuneli CIPE przez korzystanie z autokonfiguracji oraz
-mechanizmów kluczy publicznych/prywatnych.
+mechanizmÃ³w kluczy publicznych/prywatnych.
 
 %package pkcipe-server
 Summary:	The PKCIPE public key tool for CIPE - server side
-Summary(pl):	PKCIPE - narzêdzie do wykorzystania kluczy publicznych w CIPE
+Summary(pl.UTF-8):   PKCIPE - narzÄ™dzie do wykorzystania kluczy publicznych w CIPE
 Group:		Networking/Daemons
 Requires:	%{name}-pkcipe-client = %{version}-%{release}
 Requires:	inetdaemon
@@ -81,18 +81,18 @@ applications. This package contains server part PKCIPE, which
 simplifies setup of CIPE tunnels by using autoconfiguration and
 public/private key mechanisms.
 
-%description pkcipe-server -l pl
-CIPE (nazwa to skrót od *Crypto IP Encapsulation*) to pakiet do
-tworzenia szyfrowanych tuneli IP. Mo¿na je wykorzystaæ do budowania
-routerów szyfruj±cych w VPNach (Prywatnych Sieciach Wirtualnych) i
-podobnych zastosowaniach. Ten pakiet zawiera PKCIPE do u¿ycia po
-stronie serwera, który uprasza ustawienie tuneli CIPE przez
-korzystanie z autokonfiguracji oraz mechanizmów kluczy
+%description pkcipe-server -l pl.UTF-8
+CIPE (nazwa to skrÃ³t od *Crypto IP Encapsulation*) to pakiet do
+tworzenia szyfrowanych tuneli IP. MoÅ¼na je wykorzystaÄ‡ do budowania
+routerÃ³w szyfrujÄ…cych w VPNach (Prywatnych Sieciach Wirtualnych) i
+podobnych zastosowaniach. Ten pakiet zawiera PKCIPE do uÅ¼ycia po
+stronie serwera, ktÃ³ry uprasza ustawienie tuneli CIPE przez
+korzystanie z autokonfiguracji oraz mechanizmÃ³w kluczy
 publicznych/prywatnych.
 
 %package -n kernel-cipe
 Summary:	CIPE kernel module
-Summary(pl):	Modu³ j±dra CIPE
+Summary(pl.UTF-8):   ModuÅ‚ jÄ…dra CIPE
 Release:	%{_rel}@%{_kernel_ver_str}
 Group:		Base/Kernel
 %{?with_dist_kernel:%requires_releq_kernel_up}
@@ -105,16 +105,16 @@ encrypting routers for VPN (Virtual Private Networks) and similar
 applications. This package contains a kernel module compiled for
 %{_kernel_ver}.
 
-%description -n kernel-cipe -l pl
-CIPE (nazwa to skrót od *Crypto IP Encapsulation*) to pakiet do
-tworzenia szyfrowanych tuneli IP. Mo¿na je wykorzystaæ do budowania
-routerów szyfruj±cych w VPNach (Prywatnych Sieciach Wirtualnych) i
-podobnych zastosowaniach. Ten pakiet zawiera modu³ kernela
+%description -n kernel-cipe -l pl.UTF-8
+CIPE (nazwa to skrÃ³t od *Crypto IP Encapsulation*) to pakiet do
+tworzenia szyfrowanych tuneli IP. MoÅ¼na je wykorzystaÄ‡ do budowania
+routerÃ³w szyfrujÄ…cych w VPNach (Prywatnych Sieciach Wirtualnych) i
+podobnych zastosowaniach. Ten pakiet zawiera moduÅ‚ kernela
 skompilowany dla %{_kernel_ver}.
 
 %package -n kernel-smp-cipe
 Summary:	CIPE kernel module
-Summary(pl):	Modu³ j±dra CIPE
+Summary(pl.UTF-8):   ModuÅ‚ jÄ…dra CIPE
 Release:	%{_rel}@%{_kernel_ver_str}
 Group:		Base/Kernel
 %{?with_dist_kernel:%requires_releq_kernel_smp}
@@ -127,11 +127,11 @@ encrypting routers for VPN (Virtual Private Networks) and similar
 applications. This package contains a kernel module compiled for
 %{_kernel_ver}smp.
 
-%description -n kernel-smp-cipe -l pl
-CIPE (nazwa to skrót od *Crypto IP Encapsulation*) to pakiet do
-tworzenia szyfrowanych tuneli IP. Mo¿na je wykorzystaæ do budowania
-routerów szyfruj±cych w VPNach (Prywatnych Sieciach Wirtualnych) i
-podobnych zastosowaniach. Ten pakiet zawiera modu³ kernela
+%description -n kernel-smp-cipe -l pl.UTF-8
+CIPE (nazwa to skrÃ³t od *Crypto IP Encapsulation*) to pakiet do
+tworzenia szyfrowanych tuneli IP. MoÅ¼na je wykorzystaÄ‡ do budowania
+routerÃ³w szyfrujÄ…cych w VPNach (Prywatnych Sieciach Wirtualnych) i
+podobnych zastosowaniach. Ten pakiet zawiera moduÅ‚ kernela
 skompilowany dla %{_kernel_ver}smp.
 
 %prep
